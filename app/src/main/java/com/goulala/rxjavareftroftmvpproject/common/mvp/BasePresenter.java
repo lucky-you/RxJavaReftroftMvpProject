@@ -1,11 +1,20 @@
 package com.goulala.rxjavareftroftmvpproject.common.mvp;
 
+import android.app.Activity;
+import android.support.v4.app.Fragment;
+
 import com.goulala.rxjavareftroftmvpproject.common.retrofit.ApiClient;
 import com.goulala.rxjavareftroftmvpproject.common.retrofit.ApiService;
 
+import org.reactivestreams.Subscriber;
+
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -13,22 +22,16 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * Presenter的基类
  */
-public class BasePresenter<V> {
+public class BasePresenter<V> implements Presenter<V> {
+
     public V mvpView;
-    protected ApiService apiStores;
+    protected Activity context;
     private CompositeDisposable mCompositeDisposable;
 
-    public void attachView(V mvpView) {
-        this.mvpView = mvpView;
-        apiStores = ApiClient.retrofit().create(ApiService.class);
+
+    public BasePresenter(V mvpView) {
+        attachView(mvpView);
     }
-
-
-    public void detachView() {
-        this.mvpView = null;
-        onUnSubscribe();
-    }
-
 
     //RxJava取消注册，以避免内存泄露
     public void onUnSubscribe() {
@@ -38,7 +41,58 @@ public class BasePresenter<V> {
     }
 
 
-    public void addSubscription(Observable observable, DisposableObserver observer) {
+    @Override
+    public void attachView(V view) {
+        this.mvpView = view;
+        if (mvpView instanceof Activity) {
+            this.context = (Activity) mvpView;
+        } else if (mvpView instanceof Fragment) {
+            //lazyLoad会先调用，这是Fragment还没初始化完成,getActivity是null
+            Observable.timer(500, TimeUnit.MILLISECONDS)
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Long>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(Long aLong) {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            context = ((Fragment) mvpView).getActivity();
+                        }
+                    });
+        }
+    }
+
+    @Override
+    public void detachView() {
+        this.mvpView = null;
+        onUnSubscribe();
+    }
+
+
+    public <T> void addSubscription(Observable<T> observable, DisposableObserver<T> observer) {
+        if (mCompositeDisposable == null) {
+            mCompositeDisposable = new CompositeDisposable();
+        }
+        mCompositeDisposable.add(observer);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void addSubscriptionTwo(Observable observable, DisposableObserver observer) {
         if (mCompositeDisposable == null) {
             mCompositeDisposable = new CompositeDisposable();
         }
@@ -47,4 +101,5 @@ public class BasePresenter<V> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer);
     }
+
 }

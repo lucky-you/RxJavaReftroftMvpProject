@@ -80,7 +80,7 @@ public abstract class LibActivity extends AppCompatActivity implements View.OnCl
      *
      * @param tarActivity
      */
-    protected void intent2Activity(Class<? extends Activity> tarActivity) {
+    protected void intentToActivity(Class<? extends Activity> tarActivity) {
         Intent intent = new Intent(mContext, tarActivity);
         startActivity(intent);
     }

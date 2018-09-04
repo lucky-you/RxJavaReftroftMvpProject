@@ -2,7 +2,7 @@ package com.goulala.rxjavareftroftmvpproject.common.utils;
 
 import android.widget.Toast;
 
-import com.goulala.rxjavareftroftmvpproject.common.lib.LibApplication;
+import com.goulala.rxjavareftroftmvpproject.common.base.BaseApplication;
 
 
 public class ToastUtils {
@@ -14,7 +14,7 @@ public class ToastUtils {
      */
     public static void showToast( CharSequence text) {
         if (mToast == null) {
-            mToast = Toast.makeText(LibApplication.getInstance(), text, Toast.LENGTH_SHORT);
+            mToast = Toast.makeText(BaseApplication.getInstance(), text, Toast.LENGTH_SHORT);
         } else {
             mToast.setText(text);
         }

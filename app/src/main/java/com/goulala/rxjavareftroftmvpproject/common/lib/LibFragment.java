@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.goulala.rxjavareftroftmvpproject.common.base.BaseApplication;
 import com.goulala.rxjavareftroftmvpproject.common.bean.EventNotice;
 import com.goulala.rxjavareftroftmvpproject.common.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
@@ -20,7 +21,7 @@ import org.greenrobot.eventbus.EventBus;
 public abstract class LibFragment extends Fragment implements View.OnClickListener {
 
     protected Context mContext;
-    protected LibApplication application;
+    protected BaseApplication application;
     protected boolean isFirst = true;//是否第一次加载
     protected View rootView;
     private boolean isViewCreate = false;//view是否创建
@@ -48,7 +49,7 @@ public abstract class LibFragment extends Fragment implements View.OnClickListen
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        application = (LibApplication) getActivity().getApplication();
+        application = (BaseApplication) getActivity().getApplication();
         rootView = view;
         initView(view);
     }
@@ -126,7 +127,7 @@ public abstract class LibFragment extends Fragment implements View.OnClickListen
      *
      * @param tarActivity
      */
-    protected void intent2Activity(Class<? extends Activity> tarActivity) {
+    protected void intentToActivity(Class<? extends Activity> tarActivity) {
         Intent intent = new Intent(mContext, tarActivity);
         startActivity(intent);
     }

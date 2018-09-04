@@ -1,18 +1,23 @@
-package com.goulala.rxjavareftroftmvpproject.common.lib;
+package com.goulala.rxjavareftroftmvpproject.common.base;
 
 import android.app.Application;
+
+import com.goulala.rxjavareftroftmvpproject.common.utils.FileUtils;
+import com.goulala.rxjavareftroftmvpproject.common.utils.SPUtils;
 
 /**
  * application的基类
  */
-public class LibApplication extends Application {
+public class BaseApplication extends Application {
 
-    protected static LibApplication instance;
+    protected static BaseApplication instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
+        SPUtils.init(this);
+        FileUtils.init("project");
 //        initImageLoader();
     }
 
@@ -28,7 +33,7 @@ public class LibApplication extends Application {
 //        ImageLoader.getInstance().init(config.build());
 //    }
 
-    public static LibApplication getInstance() {
+    public static BaseApplication getInstance() {
         return instance;
     }
 }

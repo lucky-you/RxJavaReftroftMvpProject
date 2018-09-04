@@ -9,5 +9,4 @@ public interface BaseView {
 
     void hideLoading();
 
-    void requestFailure(String message);
 }
