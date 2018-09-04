@@ -1,4 +1,4 @@
-package com.goulala.rxjavareftroftmvpproject.common.retrofit;
+package com.goulala.rxjavareftroftmvpproject.common.base;
 
 
 import com.google.gson.GsonBuilder;
@@ -50,5 +50,7 @@ public class ApiClient {
         }
         return mRetrofit;
     }
-
+    public static ApiService getApiService() {
+        return retrofit().create(ApiService.class);
+    }
 }

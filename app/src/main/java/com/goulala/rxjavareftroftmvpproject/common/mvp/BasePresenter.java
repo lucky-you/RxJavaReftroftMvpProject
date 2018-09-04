@@ -3,9 +3,6 @@ package com.goulala.rxjavareftroftmvpproject.common.mvp;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 
-import com.goulala.rxjavareftroftmvpproject.common.retrofit.ApiClient;
-import com.goulala.rxjavareftroftmvpproject.common.retrofit.ApiService;
-
 import org.reactivestreams.Subscriber;
 
 import java.util.concurrent.TimeUnit;
@@ -82,15 +79,15 @@ public class BasePresenter<V> implements Presenter<V> {
     }
 
 
-    public <T> void addSubscription(Observable<T> observable, DisposableObserver<T> observer) {
-        if (mCompositeDisposable == null) {
-            mCompositeDisposable = new CompositeDisposable();
-        }
-        mCompositeDisposable.add(observer);
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
-    }
+//    public <T> void addSubscription(Observable<T> observable, DisposableObserver<T> observer) {
+//        if (mCompositeDisposable == null) {
+//            mCompositeDisposable = new CompositeDisposable();
+//        }
+//        mCompositeDisposable.add(observer);
+//        observable.subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(observer);
+//    }
 
     public void addSubscriptionTwo(Observable observable, DisposableObserver observer) {
         if (mCompositeDisposable == null) {

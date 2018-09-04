@@ -2,6 +2,7 @@ package com.goulala.rxjavareftroftmvpproject.common.retrofit;
 
 
 import com.google.gson.GsonBuilder;
+import com.goulala.rxjavareftroftmvpproject.common.base.ApiService;
 import com.goulala.rxjavareftroftmvpproject.common.base.BaseApplication;
 import com.goulala.rxjavareftroftmvpproject.common.utils.NetWorkUtil;
 import com.orhanobut.logger.Logger;
@@ -32,7 +33,7 @@ public class RetrofitFactory {
     private static final long TIMEOUT = 30;
 
     //获得RetrofitService对象
-    public static ApiService getInstance() {
+    public synchronized static ApiService getInstance() {
         return retrofitService();
     }
 

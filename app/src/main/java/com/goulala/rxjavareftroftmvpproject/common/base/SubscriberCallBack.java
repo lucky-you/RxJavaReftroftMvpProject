@@ -19,7 +19,7 @@ import java.net.SocketTimeoutException;
  * Created by Administrator
  * on 2016/5/18.
  */
-public abstract class SubscriberCallBack<T> implements Subscriber<ResultResponse<T>> {
+public abstract class SubscriberCallBack<T> implements Subscriber<ResultResponse<? extends T>> {
 
     private static Handler mDelivery;
 
@@ -57,15 +57,14 @@ public abstract class SubscriberCallBack<T> implements Subscriber<ResultResponse
 
     @Override
     public void onNext(ResultResponse response) {
-        if (response.ret == 200) {
-            onSuccess((T) response.data);
+        if (response.error_code == 200) {
+            onSuccess((T) response.result);
         } else {
-            if (response.ret == 400 && !TextUtils.isEmpty(response.msg)) {
+            if (response.code == 400 && !TextUtils.isEmpty(response.msg)) {
                 ToastUtils.showToast(response.msg);
             }
             onFailure(response);
         }
-
 
     }
 
