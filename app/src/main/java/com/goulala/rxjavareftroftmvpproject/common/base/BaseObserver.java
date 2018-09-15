@@ -33,7 +33,7 @@ public abstract class BaseObserver<T> implements Observer<ResultResponse<T>> {
     @Override
     public void onNext(ResultResponse<T> tResultResponse) {
         onRequestEnd();
-        if (1 == tResultResponse.code) {
+        if (1 == tResultResponse.error_code) {
             try {
                 onSuccess(tResultResponse);
             } catch (Exception e) {

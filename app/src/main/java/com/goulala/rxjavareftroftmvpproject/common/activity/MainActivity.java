@@ -2,6 +2,7 @@ package com.goulala.rxjavareftroftmvpproject.common.activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.goulala.rxjavareftroftmvpproject.R;
@@ -11,6 +12,7 @@ import com.goulala.rxjavareftroftmvpproject.home.adapter.HomePageAdapter;
 import com.goulala.rxjavareftroftmvpproject.home.model.HomeDateBean;
 import com.goulala.rxjavareftroftmvpproject.home.presenter.HomePagePresenter;
 import com.goulala.rxjavareftroftmvpproject.home.view.IHomeView;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -35,7 +37,7 @@ public class MainActivity extends BaseMvpActivity<HomePagePresenter> implements 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
         mvpPresenter.getHomeDateList();
-
+        Log.d("xy","开始请求数据");
         homePageAdapter = new HomePageAdapter(homeDateList);
         initCommonRecyclerView(homePageAdapter, new DividerItemDecoration(mContext, LinearLayout.VERTICAL));
 

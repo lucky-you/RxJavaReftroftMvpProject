@@ -30,7 +30,7 @@ public class ApiClient {
                 HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                     @Override
                     public void log(String message) {
-                        Logger.d("TAG", message);
+                        Logger.d("xy", message);
                     }
                 });
                 loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

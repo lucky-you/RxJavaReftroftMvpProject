@@ -6,7 +6,5 @@ public class ResultResponse<T> {
     public int error_code;
     public T result;
 
-    public int code;
-    public String msg;
 
 }

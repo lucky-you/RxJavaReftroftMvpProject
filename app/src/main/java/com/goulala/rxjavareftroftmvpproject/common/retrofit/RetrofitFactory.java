@@ -1,6 +1,8 @@
 package com.goulala.rxjavareftroftmvpproject.common.retrofit;
 
 
+import android.util.Log;
+
 import com.google.gson.GsonBuilder;
 import com.goulala.rxjavareftroftmvpproject.common.base.ApiService;
 import com.goulala.rxjavareftroftmvpproject.common.base.BaseApplication;
@@ -60,10 +62,10 @@ public class RetrofitFactory {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(String message) {
-                Logger.d("xy", message);
+                Log.e("xy", message);
             }
         });
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         if (mOkHttpClient == null) {
             synchronized (RetrofitFactory.class) {
                 if (mOkHttpClient == null) {

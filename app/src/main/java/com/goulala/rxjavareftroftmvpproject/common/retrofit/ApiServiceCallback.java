@@ -23,12 +23,12 @@ public abstract class ApiServiceCallback<T> extends DisposableObserver<ResultRes
 
     @Override
     public void onNext(ResultResponse response) {
-        if (response.error_code == 200) {
+        if (response.error_code == 0) {
             onSuccess((T) response.result);
         } else {
-            if (response.code == 400 && !TextUtils.isEmpty(response.msg)) {
-                ToastUtils.showToast(response.msg);
-            }
+//            if (response.code == 400 && !TextUtils.isEmpty(response.msg)) {
+//                ToastUtils.showToast(response.msg);
+//            }
             onFailure(response);
         }
     }
