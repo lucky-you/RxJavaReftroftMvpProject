@@ -3,6 +3,10 @@ package com.goulala.rxjavareftroftmvpproject.common.mvp;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 
+import com.goulala.rxjavareftroftmvpproject.common.base.ApiClient;
+import com.goulala.rxjavareftroftmvpproject.common.base.ApiService;
+import com.goulala.rxjavareftroftmvpproject.common.retrofit.RetrofitFactory;
+
 import org.reactivestreams.Subscriber;
 
 import java.util.concurrent.TimeUnit;
@@ -23,8 +27,8 @@ public class BasePresenter<V> implements Presenter<V> {
 
     public V mvpView;
     protected Activity context;
+    protected ApiService apiService;
     private CompositeDisposable mCompositeDisposable;
-
 
     public BasePresenter(V mvpView) {
         attachView(mvpView);
@@ -41,6 +45,8 @@ public class BasePresenter<V> implements Presenter<V> {
     @Override
     public void attachView(V view) {
         this.mvpView = view;
+//        apiService = ApiClient.getApiService();
+        apiService = RetrofitFactory.getInstance();
         if (mvpView instanceof Activity) {
             this.context = (Activity) mvpView;
         } else if (mvpView instanceof Fragment) {
@@ -79,22 +85,13 @@ public class BasePresenter<V> implements Presenter<V> {
     }
 
 
-//    public <T> void addSubscription(Observable<T> observable, DisposableObserver<T> observer) {
-//        if (mCompositeDisposable == null) {
-//            mCompositeDisposable = new CompositeDisposable();
-//        }
-//        mCompositeDisposable.add(observer);
-//        observable.subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(observer);
-//    }
-
-    public void addSubscriptionTwo(Observable observable, DisposableObserver observer) {
+    public void addSubscription(Observable observable, DisposableObserver observer) {
         if (mCompositeDisposable == null) {
             mCompositeDisposable = new CompositeDisposable();
         }
         mCompositeDisposable.add(observer);
-        observable.subscribeOn(Schedulers.io())
+        observable
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer);
     }

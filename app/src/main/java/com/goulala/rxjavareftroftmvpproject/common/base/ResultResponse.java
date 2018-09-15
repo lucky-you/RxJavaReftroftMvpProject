@@ -8,6 +8,5 @@ public class ResultResponse<T> {
 
     public int code;
     public String msg;
-//    public T data;
 
 }

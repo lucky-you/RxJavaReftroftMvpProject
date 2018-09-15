@@ -54,8 +54,6 @@ public class RetrofitFactory {
 
     /**
      * OkHttpClient
-     *
-     * @return
      */
     private static OkHttpClient initOkHttpClient() {
         OkHttpClient mOkHttpClient = null;

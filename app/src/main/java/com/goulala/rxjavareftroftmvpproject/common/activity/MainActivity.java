@@ -34,6 +34,8 @@ public class MainActivity extends BaseMvpActivity<HomePagePresenter> implements 
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
+        mvpPresenter.getHomeDateList();
+
         homePageAdapter = new HomePageAdapter(homeDateList);
         initCommonRecyclerView(homePageAdapter, new DividerItemDecoration(mContext, LinearLayout.VERTICAL));
 

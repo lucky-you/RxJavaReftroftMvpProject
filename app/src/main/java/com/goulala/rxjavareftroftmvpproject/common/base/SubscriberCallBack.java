@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 
-
 import com.goulala.rxjavareftroftmvpproject.common.utils.ToastUtils;
 
 import org.reactivestreams.Subscriber;
@@ -16,8 +15,6 @@ import java.net.SocketTimeoutException;
 
 
 /**
- * Created by Administrator
- * on 2016/5/18.
  */
 public abstract class SubscriberCallBack<T> implements Subscriber<ResultResponse<? extends T>> {
 
@@ -33,6 +30,7 @@ public abstract class SubscriberCallBack<T> implements Subscriber<ResultResponse
     public void onSubscribe(Subscription s) {
 
     }
+
 
     @Override
     public void onError(final Throwable e) {
@@ -69,10 +67,10 @@ public abstract class SubscriberCallBack<T> implements Subscriber<ResultResponse
     }
 
 
-    public abstract void onSuccess(T model);
+    public abstract void onSuccess(T response);
 
 
-    public abstract void onThrowable(Throwable t);
+    public abstract void onThrowable(Throwable response);
 
     protected void onError() {
 

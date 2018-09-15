@@ -1,51 +1,79 @@
 package com.goulala.rxjavareftroftmvpproject.common.retrofit;
 
 
+import android.text.TextUtils;
 
+import com.goulala.rxjavareftroftmvpproject.common.base.ResultResponse;
+import com.goulala.rxjavareftroftmvpproject.common.utils.ExceptionHelper;
+import com.goulala.rxjavareftroftmvpproject.common.utils.ToastUtils;
 
 import io.reactivex.observers.DisposableObserver;
-import retrofit2.HttpException;
+
+/**
+ * 请求结果的回调
+ */
+public abstract class ApiServiceCallback<T> extends DisposableObserver<ResultResponse<? extends T>> {
 
 
-public abstract class ApiServiceCallback<M> extends DisposableObserver<M> {
+    @Override
+    protected void onStart() {
+        super.onStart();
+        onStartRequest();
+    }
 
-    public abstract void onSuccess(M model);
-
-    public abstract void onFailure(String msg);
-
-    public abstract void onFinish();
-
+    @Override
+    public void onNext(ResultResponse response) {
+        if (response.error_code == 200) {
+            onSuccess((T) response.result);
+        } else {
+            if (response.code == 400 && !TextUtils.isEmpty(response.msg)) {
+                ToastUtils.showToast(response.msg);
+            }
+            onFailure(response);
+        }
+    }
 
     @Override
     public void onError(Throwable e) {
         e.printStackTrace();
-        if (e instanceof HttpException) {
-            HttpException httpException = (HttpException) e;
-            //httpException.response().errorBody().string()
-            int code = httpException.code();
-            String msg = httpException.getMessage();
-//            LogUtil.d("code=" + code);
-            if (code == 504) {
-                msg = "网络不给力";
-            }
-            if (code == 502 || code == 404) {
-                msg = "服务器异常，请稍后再试";
-            }
-            onFailure(msg);
-        } else {
-            onFailure(e.getMessage());
-        }
-        onFinish();
+        onThrowable(e);
+        ExceptionHelper.handleException(e);
     }
 
-    @Override
-    public void onNext(M model) {
-        onSuccess(model);
-
-    }
 
     @Override
     public void onComplete() {
         onFinish();
+    }
+
+    /**
+     * 开始
+     */
+
+    public abstract void onStartRequest();
+
+    /**
+     * 成功
+     */
+    public abstract void onSuccess(T response);
+
+
+    /**
+     * 异常
+     */
+    protected void onThrowable(Throwable response) {
+
+    }
+
+    /**
+     * 失败
+     */
+    protected void onFailure(ResultResponse response) {
+    }
+
+    /**
+     * 结束
+     */
+    protected void onFinish() {
     }
 }
