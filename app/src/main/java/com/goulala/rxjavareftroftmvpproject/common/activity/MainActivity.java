@@ -37,7 +37,7 @@ public class MainActivity extends BaseMvpActivity<HomePagePresenter> implements 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
         mvpPresenter.getHomeDateList();
-        Log.d("xy","开始请求数据");
+        Log.d("xy", "开始请求数据");
         homePageAdapter = new HomePageAdapter(homeDateList);
         initCommonRecyclerView(homePageAdapter, new DividerItemDecoration(mContext, LinearLayout.VERTICAL));
 
@@ -56,7 +56,7 @@ public class MainActivity extends BaseMvpActivity<HomePagePresenter> implements 
     @Override
     public void getHomeDate(HomeDateBean homeDateBean) {
         homeDateList = homeDateBean.getData();
-        if(homeDateList!=null&&homeDateList.size()>0){
+        if (homeDateList != null && homeDateList.size() > 0) {
             homePageAdapter.setNewData(homeDateList);
         }
     }
@@ -67,12 +67,23 @@ public class MainActivity extends BaseMvpActivity<HomePagePresenter> implements 
     }
 
     @Override
-    public void showLoading() {
+    public void showLoadingDialog(String message) {
 
     }
 
     @Override
-    public void hideLoading() {
+    public void dismissLoadingDialog() {
 
     }
+
+    @Override
+    public void onRequestFailure(String message) {
+
+    }
+
+    @Override
+    public void onNewWorkOrDateJsonException(String message) {
+
+    }
+
 }

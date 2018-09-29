@@ -5,8 +5,17 @@ package com.goulala.rxjavareftroftmvpproject.common.mvp;
  */
 public interface BaseView {
 
-    void showLoading();
+    //显示加载对话框
+    void showLoadingDialog(String message);
 
-    void hideLoading();
+    //取消加载对话框
+    void dismissLoadingDialog();
+
+    //请求数据失败
+    void onRequestFailure(String message);
+
+    //网络或者数据异常
+    void onNewWorkOrDateJsonException(String message);
+
 
 }
