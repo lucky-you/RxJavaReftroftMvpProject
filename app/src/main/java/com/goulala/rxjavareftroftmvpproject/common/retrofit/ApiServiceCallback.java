@@ -1,11 +1,8 @@
 package com.goulala.rxjavareftroftmvpproject.common.retrofit;
 
 
-import android.text.TextUtils;
-
 import com.goulala.rxjavareftroftmvpproject.common.base.ResultResponse;
 import com.goulala.rxjavareftroftmvpproject.common.utils.ExceptionHelper;
-import com.goulala.rxjavareftroftmvpproject.common.utils.ToastUtils;
 
 import io.reactivex.observers.DisposableObserver;
 
