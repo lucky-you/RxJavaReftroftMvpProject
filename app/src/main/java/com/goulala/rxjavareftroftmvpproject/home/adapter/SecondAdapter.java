@@ -1,6 +1,5 @@
 package com.goulala.rxjavareftroftmvpproject.home.adapter;
 
-import android.widget.TextView;
 
 import com.goulala.rxjavareftroftmvpproject.R;
 import com.goulala.rxjavareftroftmvpproject.common.recyclerview.BaseViewHolder;
@@ -21,7 +20,7 @@ public class SecondAdapter extends SimpleAdapter<HomeDateBean.DataBean> {
 
     @Override
     protected void bind(BaseViewHolder holder, HomeDateBean.DataBean data) {
-        holder.setText(R.id.tv_news_title,data.getTitle())
-                .setText(R.id.tv_news_time,data.getDate());
+        holder.setText(R.id.tv_news_title, data.getTitle())
+                .setText(R.id.tv_news_time, data.getDate());
     }
 }
