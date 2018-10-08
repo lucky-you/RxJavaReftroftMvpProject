@@ -3,16 +3,15 @@ package com.goulala.rxjavareftroftmvpproject.common.activity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.goulala.rxjavareftroftmvpproject.R;
-import com.goulala.rxjavareftroftmvpproject.common.base.BaseActivity;
 import com.goulala.rxjavareftroftmvpproject.common.base.BaseMvpActivity;
 import com.goulala.rxjavareftroftmvpproject.home.adapter.HomePageAdapter;
 import com.goulala.rxjavareftroftmvpproject.home.model.HomeDateBean;
 import com.goulala.rxjavareftroftmvpproject.home.presenter.HomePagePresenter;
 import com.goulala.rxjavareftroftmvpproject.home.view.IHomeView;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -32,15 +31,30 @@ public class MainActivity extends BaseMvpActivity<HomePagePresenter> implements 
     @Override
     protected void bindViews() {
 
+        initTitle("基础框架").noBack().setRightText("登录").setRightOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intentToActivity(LoginActivity.class);
+            }
+        });
     }
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
-        mvpPresenter.getHomeDateList();
         Log.d("xy", "开始请求数据");
         homePageAdapter = new HomePageAdapter(homeDateList);
         initCommonRecyclerView(homePageAdapter, new DividerItemDecoration(mContext, LinearLayout.VERTICAL));
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getDate();
+    }
+
+    private void getDate() {
+        mvpPresenter.getHomeDateList(mContext);
     }
 
     @Override
@@ -54,36 +68,22 @@ public class MainActivity extends BaseMvpActivity<HomePagePresenter> implements 
     }
 
     @Override
-    public void getHomeDate(HomeDateBean homeDateBean) {
+    public void getHomeDateSuccess(HomeDateBean homeDateBean) {
         homeDateList = homeDateBean.getData();
         if (homeDateList != null && homeDateList.size() > 0) {
             homePageAdapter.setNewData(homeDateList);
         }
     }
 
-    @Override
-    public void requestFailed() {
-
-    }
-
-    @Override
-    public void showLoadingDialog(String message) {
-
-    }
-
-    @Override
-    public void dismissLoadingDialog() {
-
-    }
 
     @Override
     public void onRequestFailure(String message) {
-
+        showToast(message);
     }
 
     @Override
-    public void onNewWorkOrDateJsonException(String message) {
-
+    public void onNewWorkException(String message) {
+        showToast(message);
     }
 
 }

@@ -3,11 +3,9 @@ package com.goulala.rxjavareftroftmvpproject.common.mvp;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 
-import com.goulala.rxjavareftroftmvpproject.common.base.ApiClient;
 import com.goulala.rxjavareftroftmvpproject.common.base.ApiService;
 import com.goulala.rxjavareftroftmvpproject.common.retrofit.RetrofitFactory;
-
-import org.reactivestreams.Subscriber;
+import com.goulala.rxjavareftroftmvpproject.common.view.LoadDialog;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,6 +14,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -41,11 +40,9 @@ public class BasePresenter<V> implements Presenter<V> {
         }
     }
 
-
     @Override
     public void attachView(V view) {
         this.mvpView = view;
-//        apiService = ApiClient.getApiService();
         apiService = RetrofitFactory.getInstance();
         if (mvpView instanceof Activity) {
             this.context = (Activity) mvpView;
@@ -85,15 +82,35 @@ public class BasePresenter<V> implements Presenter<V> {
     }
 
 
-    public void addSubscription(Observable observable, DisposableObserver observer) {
+    public void addDisposableObserver(Observable observable, DisposableObserver observer) {
         if (mCompositeDisposable == null) {
             mCompositeDisposable = new CompositeDisposable();
         }
         mCompositeDisposable.add(observer);
-        observable
-                .subscribeOn(Schedulers.io())
+        observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(observer);
+                .subscribe(new Observer() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        LoadDialog.show(context);
+                    }
+
+                    @Override
+                    public void onNext(Object o) {
+                        LoadDialog.dismiss(context);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LoadDialog.dismiss(context);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+        observable.subscribeWith(observer);
     }
 
 }

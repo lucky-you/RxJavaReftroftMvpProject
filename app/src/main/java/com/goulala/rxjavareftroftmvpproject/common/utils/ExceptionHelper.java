@@ -51,4 +51,19 @@ public class ExceptionHelper {
         return error;
     }
 
+
+    public void throwable(Throwable throwable) {
+        if (throwable instanceof SocketTimeoutException  //网络超时,网络连接异常
+                || throwable instanceof ConnectException   //均视为网络异常
+                || throwable instanceof UnknownHostException) {
+        } else if (throwable instanceof JsonParseException
+                || throwable instanceof JSONException     //均视为解析错误
+                || throwable instanceof java.text.ParseException) {
+        } else {
+            //其他异常
+            ToastUtils.showToast(throwable.getMessage());
+        }
+    }
+
+
 }

@@ -1,13 +1,16 @@
 package com.goulala.rxjavareftroftmvpproject.common.recyclerview.adapter;
 
 import android.content.Context;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 import com.goulala.rxjavareftroftmvpproject.common.recyclerview.BaseViewHolder;
@@ -188,4 +191,6 @@ public abstract class BaseAdapter<M> extends RecyclerView.Adapter<BaseViewHolder
     private int getDataSize() {
         return mData == null ? 0 : mData.size();
     }
+
+
 }

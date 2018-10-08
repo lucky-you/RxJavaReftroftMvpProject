@@ -10,9 +10,20 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goulala.rxjavareftroftmvpproject.R;
 import com.goulala.rxjavareftroftmvpproject.common.mvp.BasePresenter;
 import com.goulala.rxjavareftroftmvpproject.common.mvp.MvpActivity;
+import com.goulala.rxjavareftroftmvpproject.common.view.TitleBuilder;
 
 
 public abstract class BaseMvpActivity<P extends BasePresenter> extends MvpActivity<P> {
+
+
+
+    public TitleBuilder initTitle(Object obj) {
+        if (obj instanceof String) {
+            return new TitleBuilder(this).setTitleText((String) obj);
+        } else {
+            return new TitleBuilder(this).setTitleText((int) obj);
+        }
+    }
 
 
     public RecyclerView initCommonRecyclerView(BaseQuickAdapter adapter, RecyclerView.ItemDecoration decoration) {

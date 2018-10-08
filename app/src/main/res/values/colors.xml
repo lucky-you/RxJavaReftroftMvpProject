@@ -3,4 +3,39 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="title_bar_color">#ffffff</color>
+    <color name="font_red">#D3221F</color>
+    <color name="title_grey">#f1f1f1</color>
+    <color name="divide_color">#dddddd</color>
+    <color name="theme_color">#363636</color>
+    <color name="color_f9bf3a">#f9bf3a</color>
+    <color name="color_f3683f">#f3683f</color>
+    <color name="color_6f6f6f_black">#6f6f6f</color>
+    <color name="color_626262_black">#626262</color>
+    <color name="color_3f3f3f_black">#3f3f3f</color>
+    <color name="color_9f9f9f_black">#9f9f9f</color>
+    <color name="color_9d9d9d_black">#9d9d9d</color>
+    <color name="color_f9b10c_orange">#f9b10c</color>
+    <color name="color_b9b9b9">#b9b9b9</color>
+    <color name="color_f3f3f3">#f3f3f3</color>
+    <color name="color_e53d3d">#e53d3d</color>
+    <color name="color_efefef">#efefef</color>
+    <color name="color_ffecb4">#ffecb4</color>
+    <color name="color_cb955c">#cb955c</color>
+    <color name="color_f7d7d7">#f7d7d7</color>
+    <color name="color_3f2f3f">#3f2f3f</color>
+    <color name="color_fafafa">#fafafa</color>
+    <color name="color_e4e4e4">#e4e4e4</color>
+    <color name="color_fe7f7f">#fe7f7f</color>
+    <color name="color_fa5f5f">#fa5f5f</color>
+    <color name="color_656565">#656565</color>
+    <color name="color_6e624a">#6e624a</color>
+    <color name="color_0caf33">#0caf33</color>
+    <color name="color_ecaa08">#ecaa08</color>
+
+
+
+
 </resources>

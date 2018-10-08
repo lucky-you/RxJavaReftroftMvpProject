@@ -11,8 +11,7 @@ import java.util.List;
  */
 public interface IHomeView extends BaseView {
 
-    void getHomeDate(HomeDateBean homeDateBean);
+    void getHomeDateSuccess(HomeDateBean homeDateBean);
 
-    void requestFailed();
 
 }

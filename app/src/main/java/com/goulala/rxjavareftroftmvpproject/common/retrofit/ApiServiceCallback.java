@@ -3,6 +3,7 @@ package com.goulala.rxjavareftroftmvpproject.common.retrofit;
 
 import com.goulala.rxjavareftroftmvpproject.common.base.ResultResponse;
 import com.goulala.rxjavareftroftmvpproject.common.utils.ExceptionHelper;
+import com.goulala.rxjavareftroftmvpproject.common.utils.ToastUtils;
 
 import io.reactivex.observers.DisposableObserver;
 
@@ -14,27 +15,24 @@ public abstract class ApiServiceCallback<T> extends DisposableObserver<ResultRes
 
     @Override
     protected void onStart() {
-        super.onStart();
         onStartRequest();
     }
 
     @Override
     public void onNext(ResultResponse response) {
-        if (response.error_code == 0) {
+        if (0 == response.error_code) {
             onSuccess((T) response.result);
         } else {
-//            if (response.code == 400 && !TextUtils.isEmpty(response.msg)) {
-//                ToastUtils.showToast(response.msg);
-//            }
-            onFailure(response);
+            ToastUtils.showToast(response.reason);
+            onFailure(response.reason);
         }
     }
 
     @Override
-    public void onError(Throwable e) {
-        e.printStackTrace();
-        onThrowable(e);
-        ExceptionHelper.handleException(e);
+    public void onError(Throwable throwable) {
+        throwable.printStackTrace();
+        onThrowable(throwable);
+        ExceptionHelper.handleException(throwable);
     }
 
 
@@ -44,33 +42,37 @@ public abstract class ApiServiceCallback<T> extends DisposableObserver<ResultRes
     }
 
     /**
-     * 开始
+     * 网络请求开始
      */
+    public void onStartRequest() {
 
-    public abstract void onStartRequest();
+    }
 
     /**
-     * 成功
+     * 网络请求成功
      */
     public abstract void onSuccess(T response);
 
+    /**
+     * 网络请求失败
+     */
+    public void onFailure(String failure) {
+    }
+
 
     /**
-     * 异常
+     * 网络请求异常
      */
-    protected void onThrowable(Throwable response) {
+    public void onThrowable(Throwable throwable) {
+    }
+
+
+    /**
+     * 网络请求结束
+     */
+    public void onFinish() {
 
     }
 
-    /**
-     * 失败
-     */
-    protected void onFailure(ResultResponse response) {
-    }
 
-    /**
-     * 结束
-     */
-    protected void onFinish() {
-    }
 }
