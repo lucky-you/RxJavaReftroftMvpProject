@@ -12,6 +12,7 @@ import com.goulala.rxjavareftroftmvpproject.home.adapter.HomePageAdapter;
 import com.goulala.rxjavareftroftmvpproject.home.model.HomeDateBean;
 import com.goulala.rxjavareftroftmvpproject.home.presenter.HomePagePresenter;
 import com.goulala.rxjavareftroftmvpproject.home.view.IHomeView;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 

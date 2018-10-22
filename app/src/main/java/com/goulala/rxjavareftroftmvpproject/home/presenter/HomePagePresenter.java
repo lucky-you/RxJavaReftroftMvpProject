@@ -19,7 +19,7 @@ public class HomePagePresenter extends BasePresenter<IHomeView> {
 
     public void getHomeDateList(final Context context) {
 
-        addDisposableObserver(apiService.getHomeDateList(), new ApiServiceCallback<HomeDateBean>() {
+        addDisposableObserver(apiService.getLoginDateList(), new ApiServiceCallback<HomeDateBean>() {
 
             @Override
             public void onSuccess(HomeDateBean response) {
