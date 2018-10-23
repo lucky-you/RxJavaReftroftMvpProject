@@ -42,7 +42,7 @@ public class LoginActivity extends BaseMvpActivity<HomePagePresenter> implements
     }
 
     private void getDate() {
-        mvpPresenter.getHomeDateList(mContext);
+        mvpPresenter.getHomeDateList(mContext,2);
     }
 
     @Override

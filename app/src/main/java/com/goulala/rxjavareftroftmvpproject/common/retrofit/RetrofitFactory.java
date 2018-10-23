@@ -62,7 +62,7 @@ public class RetrofitFactory {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(String message) {
-                Log.e("xy", message);
+                Log.d("xy", message);
             }
         });
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
