@@ -32,7 +32,10 @@ public class MainActivity extends BaseMvpActivity<HomePagePresenter> implements 
     @Override
     protected void bindViews() {
 
-        initTitle("基础框架").noBack().setRightText("登录").setRightOnClickListener(new View.OnClickListener() {
+        initTitle("基础框架")
+                .noBack()
+                .setRightText("登录")
+                .setRightOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 intentToActivity(LoginActivity.class);

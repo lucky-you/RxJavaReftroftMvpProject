@@ -17,7 +17,6 @@ public class LoginActivity extends BaseMvpActivity<HomePagePresenter> implements
 
 
     private List<HomeDateBean.DataBean> homeDateList;
-
     private SecondAdapter secondAdapter;
     private RecyclerView recyclerView;
 
@@ -30,7 +29,6 @@ public class LoginActivity extends BaseMvpActivity<HomePagePresenter> implements
     protected void bindViews() {
         initTitle("登录界面");
         recyclerView = get(R.id.recyclerView);
-
     }
 
     @Override

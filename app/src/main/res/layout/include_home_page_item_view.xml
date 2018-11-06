@@ -7,16 +7,16 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/civ_news_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
+        android:layout_width="@dimen/spacing_50"
+        android:layout_height="@dimen/spacing_50"
+        android:layout_margin="@dimen/spacing_10"
         android:src="@mipmap/ic_launcher" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="@dimen/spacing_10"
         android:orientation="vertical">
 
         <TextView
@@ -31,11 +31,10 @@
             android:id="@+id/tv_news_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/spacing_8"
             android:text="@string/app_name"
             android:textColor="#666"
             android:textSize="14sp" />
-
 
     </LinearLayout>
 
