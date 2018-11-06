@@ -6,5 +6,12 @@ public class ResultResponse<T> {
     public int error_code;
     public T result;
 
-
+    @Override
+    public String toString() {
+        return "ResultResponse{" +
+                "reason='" + reason + '\'' +
+                ", error_code=" + error_code +
+                ", result=" + result +
+                '}';
+    }
 }
