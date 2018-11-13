@@ -57,6 +57,7 @@ public abstract class ApiServiceCallback<T> extends DisposableObserver<ResultRes
      * 网络请求失败
      */
     public void onFailure(String failure) {
+
     }
 
 

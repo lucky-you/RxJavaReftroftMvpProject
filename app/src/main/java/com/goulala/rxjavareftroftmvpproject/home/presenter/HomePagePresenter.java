@@ -35,6 +35,15 @@ public class HomePagePresenter extends BasePresenter<IHomeView> {
                 }
             }
 
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+            }
+
+            @Override
+            public void onFailure(String failure) {
+                mvpView.onRequestFailure(failure);
+            }
         });
     }
 
