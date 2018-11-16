@@ -22,7 +22,7 @@ import java.security.spec.X509EncodedKeySpec;
 
 import javax.crypto.Cipher;
 
-public class RSAUtils {
+public final class RSAUtils {
     private static String RSA = "RSA";
 
     /**

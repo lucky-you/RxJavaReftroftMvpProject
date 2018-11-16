@@ -30,7 +30,7 @@ public abstract class BaseFragment extends LibFragment {
     }
 
     public RecyclerView initCommonRecyclerView(BaseQuickAdapter adapter, RecyclerView.ItemDecoration decoration) {
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = (RecyclerView) mContentView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if (decoration != null) {
             recyclerView.addItemDecoration(decoration);
@@ -40,7 +40,7 @@ public abstract class BaseFragment extends LibFragment {
     }
 
     public RecyclerView initGridRecyclerView(BaseQuickAdapter adapter, RecyclerView.ItemDecoration decoration, int spanCount) {
-        return initGridRecyclerView((RecyclerView) rootView.findViewById(R.id.recyclerView), adapter, decoration, spanCount);
+        return initGridRecyclerView((RecyclerView) mContentView.findViewById(R.id.recyclerView), adapter, decoration, spanCount);
     }
 
     public RecyclerView initGridRecyclerView(RecyclerView recyclerView, BaseQuickAdapter adapter, RecyclerView.ItemDecoration decoration, int spanCount) {

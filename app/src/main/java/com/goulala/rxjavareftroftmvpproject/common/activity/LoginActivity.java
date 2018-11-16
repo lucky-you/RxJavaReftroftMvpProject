@@ -2,13 +2,17 @@ package com.goulala.rxjavareftroftmvpproject.common.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.goulala.rxjavareftroftmvpproject.R;
 import com.goulala.rxjavareftroftmvpproject.common.base.BaseMvpActivity;
 import com.goulala.rxjavareftroftmvpproject.common.loading.LoadingController;
 import com.goulala.rxjavareftroftmvpproject.common.loading.LoadingInterface;
+import com.goulala.rxjavareftroftmvpproject.common.utils.BarUtils;
 import com.goulala.rxjavareftroftmvpproject.home.adapter.SecondAdapter;
 import com.goulala.rxjavareftroftmvpproject.home.model.HomeDateBean;
 import com.goulala.rxjavareftroftmvpproject.home.presenter.HomePagePresenter;
@@ -30,22 +34,34 @@ public class LoginActivity extends BaseMvpActivity<HomePagePresenter> implements
     public static final int CONTENT = 3;
 
     @Override
-    protected void loadViewLayout() {
-        setContentView(R.layout.activity_login);
+    public void initData(@Nullable Bundle bundle) {
+
     }
 
     @Override
-    protected void bindViews() {
+    public int loadViewLayout() {
+        return R.layout.activity_login;
+    }
+
+    @Override
+    public void bindViews(View contentView) {
         initTitle("登录界面");
         recyclerView = get(R.id.recyclerView);
+        LinearLayout llRootLayout = get(R.id.ll_root_layout);
+        BarUtils.addMarginTopEqualStatusBarHeight(llRootLayout);// 其实这个只需要调用一次即可
     }
 
     @Override
-    protected void processLogic(Bundle savedInstanceState) {
+    public void processLogic(Bundle savedInstanceState) {
         request();
         secondAdapter = new SecondAdapter(homeDateList, R.layout.include_home_page_item_view);
         recyclerView.setAdapter(secondAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+    }
+
+    @Override
+    public void setClickListener(View view) {
+
     }
 
     private void request() {
@@ -98,17 +114,13 @@ public class LoginActivity extends BaseMvpActivity<HomePagePresenter> implements
                         break;
                 }
             }
-        }, 2000);
+        }, 1000);
     }
 
     private void getDate() {
         mvpPresenter.getHomeDateList(mContext, 2);
     }
 
-    @Override
-    protected void setListener() {
-
-    }
 
     @Override
     public void getHomeDateSuccess(HomeDateBean homeDateBean) {
@@ -137,4 +149,6 @@ public class LoginActivity extends BaseMvpActivity<HomePagePresenter> implements
     protected HomePagePresenter createPresenter() {
         return new HomePagePresenter(this);
     }
+
+
 }

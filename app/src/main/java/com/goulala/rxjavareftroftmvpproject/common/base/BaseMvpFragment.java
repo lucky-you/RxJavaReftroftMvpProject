@@ -16,7 +16,7 @@ public abstract class BaseMvpFragment<P extends BasePresenter> extends MvpFragme
 
 
     public RecyclerView initCommonRecyclerView(BaseQuickAdapter adapter, RecyclerView.ItemDecoration decoration) {
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = (RecyclerView) mContentView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if (decoration != null) {
             recyclerView.addItemDecoration(decoration);
@@ -35,7 +35,7 @@ public abstract class BaseMvpFragment<P extends BasePresenter> extends MvpFragme
 
     public RecyclerView initHorizontalRecyclerView(RecyclerView recyclerView, BaseQuickAdapter adapter, RecyclerView.ItemDecoration decoration, boolean reverseLayout) {
         if (recyclerView == null)
-            recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+            recyclerView = (RecyclerView) mContentView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, reverseLayout));
         if (decoration != null) {
             recyclerView.addItemDecoration(decoration);
@@ -45,7 +45,7 @@ public abstract class BaseMvpFragment<P extends BasePresenter> extends MvpFragme
     }
 
     public RecyclerView initGridRecyclerView(BaseQuickAdapter adapter, RecyclerView.ItemDecoration decoration, int spanCount) {
-        return initGridRecyclerView((RecyclerView) rootView.findViewById(R.id.recyclerView), adapter, decoration, spanCount);
+        return initGridRecyclerView((RecyclerView) mContentView.findViewById(R.id.recyclerView), adapter, decoration, spanCount);
     }
 
     public RecyclerView initGridRecyclerView(RecyclerView recyclerView, BaseQuickAdapter adapter, RecyclerView.ItemDecoration decoration, int spanCount) {

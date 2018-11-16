@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,49 +21,65 @@ import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 
-public abstract class LibFragment extends Fragment implements View.OnClickListener {
-
+public abstract class LibFragment extends Fragment implements BaseView {
+    private static final String TAG = "LibFragment";
+    private static final String STATE_SAVE_IS_HIDDEN = "STATE_SAVE_IS_HIDDEN";
     protected Context mContext;
     protected BaseApplication application;
+    protected View mContentView;
     protected boolean isFirst = true;//是否第一次加载
-    protected View rootView;
+    private long lastClick = 0;
     private boolean isViewCreate = false;//view是否创建
     private boolean isViewVisible = false;//view是否可见
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            boolean isSupportHidden = savedInstanceState.getBoolean(STATE_SAVE_IS_HIDDEN);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            if (isSupportHidden) {
+                ft.hide(this);
+            } else {
+                ft.show(this);
+            }
+            ft.commitAllowingStateLoss();
+        }
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return loadViewLayout(inflater, container);
+        setBaseView(inflater, loadViewLayout());
+        return mContentView;
+    }
+
+    protected void setBaseView(@NonNull LayoutInflater inflater, @LayoutRes int layoutId) {
+        if (layoutId <= 0) return;
+        mContentView = inflater.inflate(layoutId, null);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         isViewCreate = true;
         super.onActivityCreated(savedInstanceState);
+        mContext = getActivity();
+        bindViews(mContentView);
+        processLogic(savedInstanceState);
     }
-
-    @Override
-    public void onAttach(Context context) {
-        this.mContext = context;
-        super.onAttach(context);
-    }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         application = (BaseApplication) getActivity().getApplication();
-        rootView = view;
-        initView(view);
+        mContentView = view;
     }
 
-    /**
-     * 初始化界面
-     */
-    private void initView(View view) {
-        bindViews(view);
-        processLogic();
-        setListener();
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        Log.d(TAG, "onSaveInstanceState: ");
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(STATE_SAVE_IS_HIDDEN, isHidden());
     }
 
     @Override
@@ -100,74 +119,47 @@ public abstract class LibFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    /**
-     * 加载布局
-     */
-    protected abstract View loadViewLayout(LayoutInflater inflater, ViewGroup container);
 
-    /**
-     * find控件
-     *
-     * @param view
-     */
-    protected abstract void bindViews(View view);
-
-    /**
-     * 处理数据
-     */
-    protected abstract void processLogic();
-
-    /**
-     * 设置监听
-     */
-    protected abstract void setListener();
-
-    /**
-     * 界面跳转
-     *
-     * @param tarActivity
-     */
     protected void intentToActivity(Class<? extends Activity> tarActivity) {
         Intent intent = new Intent(mContext, tarActivity);
         startActivity(intent);
     }
 
-    /**
-     * 显示Toast
-     *
-     * @param msg
-     */
     protected void showToast(String msg) {
         ToastUtils.showToast(msg);
     }
 
-    protected void showLog(String msg) {
-        Logger.i(msg);
+
+    private boolean isFastClick() {
+        long now = System.currentTimeMillis();
+        if (now - lastClick >= 800) {
+            lastClick = now;
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void onClick(View v) {
-
+    public void onClick(View view) {
+        if (!isFastClick()) setClickListener(view);
     }
 
-    /**
-     * 注册事件通知
-     */
     public void registerEvent() {
         EventBus.getDefault().register(this);
     }
 
-    /**
-     * 发送消息
-     */
     public void EventPost(EventNotice notice) {
         EventBus.getDefault().post(notice);
     }
+
 
     @Override
     public void onDestroyView() {
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
+        }
+        if (mContentView != null) {
+            ((ViewGroup) mContentView.getParent()).removeView(mContentView);
         }
         super.onDestroyView();
     }

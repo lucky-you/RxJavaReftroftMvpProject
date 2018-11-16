@@ -15,8 +15,6 @@ import com.goulala.rxjavareftroftmvpproject.common.view.TitleBuilder;
 
 public abstract class BaseMvpActivity<P extends BasePresenter> extends MvpActivity<P> {
 
-
-
     public TitleBuilder initTitle(Object obj) {
         if (obj instanceof String) {
             return new TitleBuilder(this).setTitleText((String) obj);
@@ -24,7 +22,6 @@ public abstract class BaseMvpActivity<P extends BasePresenter> extends MvpActivi
             return new TitleBuilder(this).setTitleText((int) obj);
         }
     }
-
 
     public RecyclerView initCommonRecyclerView(BaseQuickAdapter adapter, RecyclerView.ItemDecoration decoration) {
         return initCommonRecyclerView(R.id.recyclerView, adapter, decoration);

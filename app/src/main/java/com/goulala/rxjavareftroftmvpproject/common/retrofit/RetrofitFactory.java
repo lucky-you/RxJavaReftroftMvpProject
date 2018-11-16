@@ -6,8 +6,7 @@ import android.util.Log;
 import com.google.gson.GsonBuilder;
 import com.goulala.rxjavareftroftmvpproject.common.base.ApiService;
 import com.goulala.rxjavareftroftmvpproject.common.base.BaseApplication;
-import com.goulala.rxjavareftroftmvpproject.common.utils.NetWorkUtil;
-import com.orhanobut.logger.Logger;
+import com.goulala.rxjavareftroftmvpproject.common.utils.NetworkUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +44,7 @@ public class RetrofitFactory {
                 // 添加Gson转换器
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
                         .setLenient()
+                        .setDateFormat("yyyy-MM-dd HH:mm:ss")
                         .create()
                 ))
                 // 添加Retrofit到RxJava的转换器
@@ -100,7 +100,7 @@ public class RetrofitFactory {
             // 无网络时，设置超时为1天
             int maxStale = 60 * 60 * 24;
             Request request = chain.request();
-            if (NetWorkUtil.isNetworkConnected()) {
+            if (NetworkUtils.isConnected()) {
                 //有网络时只从网络获取
                 request = request.newBuilder()
                         .cacheControl(CacheControl.FORCE_NETWORK)
@@ -112,7 +112,7 @@ public class RetrofitFactory {
                         .build();
             }
             Response response = chain.proceed(request);
-            if (NetWorkUtil.isNetworkConnected()) {
+            if (NetworkUtils.isConnected()) {
                 response = response.newBuilder()
                         .removeHeader("Pragma")
                         .header("Cache-Control", "public, max-age=" + maxAge)

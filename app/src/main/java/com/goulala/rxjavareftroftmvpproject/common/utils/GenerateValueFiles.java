@@ -6,9 +6,9 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 
 /**
- * @author : Z_B
- * @date : 2018/8/14
- * @function :
+ * author : Z_B
+ * date : 2018/8/14
+ * function :
  */
 public class GenerateValueFiles {
     private int baseW;

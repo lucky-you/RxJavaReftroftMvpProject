@@ -2,7 +2,6 @@ package com.goulala.rxjavareftroftmvpproject.home.presenter;
 
 import android.content.Context;
 
-import com.goulala.rxjavareftroftmvpproject.common.base.ResultResponse;
 import com.goulala.rxjavareftroftmvpproject.common.mvp.BasePresenter;
 import com.goulala.rxjavareftroftmvpproject.common.retrofit.ApiServiceCallback;
 import com.goulala.rxjavareftroftmvpproject.home.model.HomeDateBean;
@@ -36,13 +35,13 @@ public class HomePagePresenter extends BasePresenter<IHomeView> {
             }
 
             @Override
-            public void onError(Throwable throwable) {
-                super.onError(throwable);
+            public void onErrorThrowable(String errorMessage) {
+                mvpView.onNewWorkException(errorMessage);
             }
 
             @Override
-            public void onFailure(String failure) {
-                mvpView.onRequestFailure(failure);
+            public void onFailure(String failureMessage) {
+                mvpView.onRequestFailure(failureMessage);
             }
         });
     }

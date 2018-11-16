@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class FileUtils {
+public final class FileUtils {
 
     private static String dirName;
 
