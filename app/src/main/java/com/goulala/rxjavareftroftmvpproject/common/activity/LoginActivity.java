@@ -13,7 +13,8 @@ import com.goulala.rxjavareftroftmvpproject.common.base.BaseMvpActivity;
 import com.goulala.rxjavareftroftmvpproject.common.loading.LoadingController;
 import com.goulala.rxjavareftroftmvpproject.common.loading.LoadingInterface;
 import com.goulala.rxjavareftroftmvpproject.common.utils.BarUtils;
-import com.goulala.rxjavareftroftmvpproject.home.adapter.SecondAdapter;
+import com.goulala.rxjavareftroftmvpproject.common.utils.ScreenUtils;
+import com.goulala.rxjavareftroftmvpproject.home.adapter.HomePageAdapter;
 import com.goulala.rxjavareftroftmvpproject.home.model.HomeDateBean;
 import com.goulala.rxjavareftroftmvpproject.home.presenter.HomePagePresenter;
 import com.goulala.rxjavareftroftmvpproject.home.view.IHomeView;
@@ -24,7 +25,7 @@ public class LoginActivity extends BaseMvpActivity<HomePagePresenter> implements
 
 
     private List<HomeDateBean.DataBean> homeDateList;
-    private SecondAdapter secondAdapter;
+    private HomePageAdapter homePageAdapter;
     private RecyclerView recyclerView;
     private LoadingController loadingController;
 
@@ -35,7 +36,11 @@ public class LoginActivity extends BaseMvpActivity<HomePagePresenter> implements
 
     @Override
     public void initData(@Nullable Bundle bundle) {
-
+        if (ScreenUtils.isPortrait()) {
+            ScreenUtils.adaptScreen4VerticalSlide(this, 365);
+        } else {
+            ScreenUtils.adaptScreen4HorizontalSlide(this, 667);
+        }
     }
 
     @Override
@@ -49,14 +54,18 @@ public class LoginActivity extends BaseMvpActivity<HomePagePresenter> implements
         recyclerView = get(R.id.recyclerView);
         LinearLayout llRootLayout = get(R.id.ll_root_layout);
         BarUtils.addMarginTopEqualStatusBarHeight(llRootLayout);// 其实这个只需要调用一次即可
+
     }
 
     @Override
     public void processLogic(Bundle savedInstanceState) {
         request();
-        secondAdapter = new SecondAdapter(homeDateList, R.layout.include_home_page_item_view);
-        recyclerView.setAdapter(secondAdapter);
+        homePageAdapter = new HomePageAdapter(homeDateList);
+        recyclerView.setAdapter(homePageAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+
+        ScreenUtils.getScreenWidth();
+        ScreenUtils.getScreenHeight();
     }
 
     @Override
@@ -64,14 +73,22 @@ public class LoginActivity extends BaseMvpActivity<HomePagePresenter> implements
 
     }
 
+    @Override
+    protected void onDestroy() {
+        ScreenUtils.cancelAdaptScreen(this);
+        super.onDestroy();
+    }
+
+
     private void request() {
+
         loadingController = new LoadingController.Builder(this, recyclerView)
-                .setLoadingImageResource(R.drawable.anim_loading_frame)
-                .setLoadingMessage("加载中...")
+//                .setLoadingImageResource(R.drawable.anim_loading_frame)
+//                .setLoadingMessage("加载中...")
                 .setErrorMessage("加载失败，请稍后重试~")
                 .setErrorImageResoruce(R.drawable.svg_data_error)
-                .setEmptyMessage("暂无数据~")
-                .setEmptyViewImageResource(R.drawable.svg_empty)
+//                .setEmptyMessage("暂无数据~")
+//                .setEmptyViewImageResource(R.drawable.svg_empty)
                 .setOnNetworkErrorRetryClickListener(new LoadingInterface.OnClickListener() {
                     @Override
                     public void onClick() {
@@ -81,18 +98,19 @@ public class LoginActivity extends BaseMvpActivity<HomePagePresenter> implements
                 .setOnErrorRetryClickListener("点我重试", new LoadingInterface.OnClickListener() {
                     @Override
                     public void onClick() {
-                        refresh(EMPTY);
-                    }
-                })
-                .setOnEmptyTodoClickListener("再次重试", new LoadingInterface.OnClickListener() {
-                    @Override
-                    public void onClick() {
                         refresh(CONTENT);
                     }
                 })
+//                .setOnEmptyTodoClickListener("再次重试", new LoadingInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick() {
+//                        refresh(CONTENT);
+//                    }
+//                })
                 .build();
         loadingController.showLoading();
-        refresh(NETWORK_ERROR);
+//        refresh(NETWORK_ERROR);
+        getDate();
     }
 
     private void refresh(final int showTarget) {
@@ -126,9 +144,9 @@ public class LoginActivity extends BaseMvpActivity<HomePagePresenter> implements
     public void getHomeDateSuccess(HomeDateBean homeDateBean) {
         if (homeDateBean != null) {
             homeDateList = homeDateBean.getData();
-            if (homeDateList != null) {
+            if (homeDateList != null && homeDateList.size() > 0) {
+                homePageAdapter.setNewData(homeDateList);
                 loadingController.dismissLoading();
-                secondAdapter.setData(homeDateList);
             } else {
                 loadingController.showEmpty();
             }
