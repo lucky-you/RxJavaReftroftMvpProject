@@ -88,30 +88,36 @@ public class BasePresenter<V> implements Presenter<V> {
             mCompositeDisposable = new CompositeDisposable();
         }
         mCompositeDisposable.add(observer);
+
         observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        LoadDialog.show(context);
-                    }
+                .subscribe(observer);
 
-                    @Override
-                    public void onNext(Object o) {
-                        LoadDialog.dismiss(context);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        LoadDialog.dismiss(context);
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-        observable.subscribeWith(observer);
+//        observable.subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer() {
+//                    @Override
+//                    public void onSubscribe(Disposable d) {
+//                        LoadDialog.show(context);
+//                    }
+//
+//                    @Override
+//                    public void onNext(Object o) {
+//                        LoadDialog.dismiss(context);
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        LoadDialog.dismiss(context);
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                    }
+//                });
+//        observable.subscribeWith(observer);
     }
 
 }
